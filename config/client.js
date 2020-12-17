@@ -1,5 +1,6 @@
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
@@ -53,6 +54,9 @@ const development = env => {
       ]
     },
     plugins: [
+      new Dotenv({
+        silent: true
+      }),
       new AssetsPlugin({
         path: path.resolve(process.cwd(), 'build'),
         filename: 'assets.json',
@@ -124,6 +128,9 @@ const production = env => {
     },
     plugins: [
       new CleanWebpackPlugin(),
+      new Dotenv({
+        silent: true
+      }),
       new CopyPlugin({
         patterns: [
           { from: 'public' }

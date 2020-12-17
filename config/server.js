@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
+const Dotenv = require('dotenv-webpack')
 const RunNodeWebpackPlugin = require('run-node-webpack-plugin')
 
 const development = env => {
@@ -42,6 +43,9 @@ const development = env => {
       ]
     },
     plugins: [
+      new Dotenv({
+        silent: true
+      }),
       new RunNodeWebpackPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.EnvironmentPlugin({
@@ -89,6 +93,9 @@ const production = env => {
       ]
     },
     plugins: [
+      new Dotenv({
+        silent: true
+      }),
       new webpack.EnvironmentPlugin({
         STATIC_PATH: 'build/public'
       })

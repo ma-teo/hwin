@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+console.log('Building...')
+
 const webpack = require('webpack')
 
 const clientConfig = require('../config/client')
@@ -9,12 +11,10 @@ process.env.NODE_ENV = 'production'
 const clientCompiler = webpack(clientConfig(process.env))
 const serverCompiler = webpack(serverConfig(process.env))
 
-clientCompiler.run((err, stats) => {
-  console.log(`${err}`)
-  console.log(`${stats}`)
+clientCompiler.run(err => {
+  err ? console.log(`${err}`) : console.log('Client Build Complete')
 
-  serverCompiler.run((err, stats) => {
-    console.log(`${err}`)
-    console.log(`${stats}`)
+  serverCompiler.run(err => {
+    err ? console.log(`${err}`) : console.log('Server Build Complete')
   })
 })

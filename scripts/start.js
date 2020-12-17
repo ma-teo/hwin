@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+console.log('Building...')
+
 const webpack = require('webpack')
 const devServer = require('webpack-dev-server')
 
@@ -14,10 +16,9 @@ const serverCompiler = webpack(serverConfig(process.env))
 const clientServer = new devServer(clientCompiler, devServerConfig)
 
 clientServer.listen(5000, 'localhost', err => {
-  console.log(`${err}`)
+  err ? console.log(`${err}`) : console.log('Client Build Complete')
 
-  serverCompiler.watch({}, (err, stats) => {
-    console.log(`${err}`)
-    console.log(`${stats}`)
+  serverCompiler.watch({}, err => {
+    err ? console.log(`${err}`) : console.log('Server Build Complete')
   })
 })

@@ -4,5 +4,6 @@ module.exports = {
     'Access-Control-Allow-Origin': '*'
   },
   hotOnly: true,
-  port: 5000
+  port: 5000,
+  quiet: true
 }
