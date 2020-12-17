@@ -36,7 +36,7 @@ const development = env => {
           }
         },
         {
-          test: /\.scss$/,
+          test: /\.(css|s[ac]ss)$/,
           use: [
             require.resolve('style-loader'),
             require.resolve('css-loader'),
@@ -106,7 +106,7 @@ const production = env => {
           }
         },
         {
-          test: /\.scss$/,
+          test: /\.(css|s[ac]ss)$/,
           use: [
             MiniCssExtractPlugin.loader,
             require.resolve('css-loader'),
