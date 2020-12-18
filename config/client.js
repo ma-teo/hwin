@@ -132,9 +132,10 @@ const production = env => {
         silent: true
       }),
       new CopyPlugin({
-        patterns: [
-          { from: 'public' }
-        ]
+        patterns: [{
+          from: 'public',
+          noErrorOnMissing: true
+        }]
       }),
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:8].css'
