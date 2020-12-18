@@ -41,6 +41,16 @@ const development = env => {
           use: [
             require.resolve('style-loader'),
             require.resolve('css-loader'),
+            {
+              loader: require.resolve('postcss-loader'),
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    require.resolve('autoprefixer')
+                  ]
+                }
+              }
+            },
             require.resolve('sass-loader')
           ]
         },
@@ -114,6 +124,16 @@ const production = env => {
           use: [
             MiniCssExtractPlugin.loader,
             require.resolve('css-loader'),
+            {
+              loader: require.resolve('postcss-loader'),
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    require.resolve('autoprefixer')
+                  ]
+                }
+              }
+            },
             require.resolve('sass-loader')
           ]
         },
