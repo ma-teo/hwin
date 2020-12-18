@@ -14,7 +14,9 @@ console.log('Building...')
 clientCompiler.run((err, stats) => {
   err && console.log(`${err}`)
   console.log(stats.toString({ colors: true }))
+})
 
+clientCompiler.compile(() => {
   serverCompiler.run((err, stats) => {
     err && console.log(`${err}`)
     console.log(stats.toString({ colors: true }))
