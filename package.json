@@ -1,6 +1,6 @@
 {
   "name": "roar",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "bin": "./bin/roar.js",
   "dependencies": {
     "@babel/core": "^7.12.10",
