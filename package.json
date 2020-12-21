@@ -1,7 +1,7 @@
 {
-  "name": "roar",
+  "name": "hwin",
   "version": "0.1.0",
-  "bin": "./bin/roar.js",
+  "bin": "./bin/hwin.js",
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
