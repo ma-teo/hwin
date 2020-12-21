@@ -1,4 +1,4 @@
-# Simple React SSR CLI Binary
+# Hwin - React SSR CLI
 
 Create [React](https://github.com/facebook/react) SSR app with no build configuration.
 
