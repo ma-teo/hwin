@@ -1,6 +1,11 @@
 {
   "name": "hwin",
-  "version": "0.1.1",
+  "version": "0.1.2",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ma-teo/hwin.git"
+  },
   "bin": "./bin/hwin.js",
   "dependencies": {
     "@babel/core": "^7.12.10",
