@@ -9,16 +9,15 @@ const serverConfig = require('../config/server')
 const clientCompiler = webpack(clientConfig(process.env))
 const serverCompiler = webpack(serverConfig(process.env))
 
-console.log('Building...')
+clientCompiler.hooks.done.tap('done', stats => {
+  console.log(stats.toString({ colors: true }))
+  !stats.hasErrors() && serverCompiler.run()
+})
 
-clientCompiler.run((err, stats) => {
-  err && console.log(`${err}`)
+serverCompiler.hooks.done.tap('done', stats => {
   console.log(stats.toString({ colors: true }))
 })
 
-clientCompiler.compile(() => {
-  serverCompiler.run((err, stats) => {
-    err && console.log(`${err}`)
-    console.log(stats.toString({ colors: true }))
-  })
-})
+console.log('Building...')
+
+clientCompiler.run()

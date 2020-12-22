@@ -13,15 +13,14 @@ const serverCompiler = webpack(serverConfig(process.env))
 
 const clientServer = new devServer(clientCompiler, devServerConfig)
 
+clientCompiler.hooks.done.tap('done', stats => {
+  !stats.hasErrors() && serverCompiler.watch({}, () => {})
+})
+
+serverCompiler.hooks.done.tap('done', stats => {
+  console.log(stats.toString({ colors: true }))
+})
+
 console.log('Building...')
 
-clientServer.listen(5000, 'localhost', err => {
-  err && console.log(`${err}`)
-})
-
-clientCompiler.compile(() => {
-  serverCompiler.watch({}, (err, stats) => {
-    err && console.log(`${err}`)
-    console.log(stats.toString({ colors: true }))
-  })
-})
+clientServer.listen(5000)
