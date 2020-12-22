@@ -1,6 +1,6 @@
 {
   "name": "hwin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "bin": "./bin/hwin.js",
   "dependencies": {
     "@babel/core": "^7.12.10",
