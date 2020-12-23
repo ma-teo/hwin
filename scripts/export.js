@@ -1,24 +1,18 @@
 #!/usr/bin/env node
 process.env.NODE_ENV = 'production'
-process.env.SCRIPT = 'server'
+process.env.SCRIPT = 'export'
 
 const webpack = require('webpack')
 
-const clientConfig = require('../config/client')
 const serverConfig = require('../config/server')
 
-const clientCompiler = webpack(clientConfig(process.env))
 const serverCompiler = webpack(serverConfig(process.env))
-
-clientCompiler.hooks.done.tap('done', stats => {
-  console.log(stats.toString({ colors: true }))
-  !stats.hasErrors() && serverCompiler.run()
-})
 
 serverCompiler.hooks.done.tap('done', stats => {
   console.log(stats.toString({ colors: true }))
+  !stats.hasErrors() && require(process.cwd() + '/build/export')
 })
 
 console.log('Building...')
 
-clientCompiler.run()
+serverCompiler.run()

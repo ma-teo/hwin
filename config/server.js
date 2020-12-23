@@ -60,11 +60,11 @@ const production = env => {
   return {
     mode: env.NODE_ENV,
     entry: {
-      server: path.resolve(process.cwd(), 'src/server.js'),
+      [env.SCRIPT]: path.resolve(process.cwd(), `src/${env.SCRIPT}.js`),
     },
     output: {
       path: path.resolve(process.cwd(), 'build'),
-      filename: '[name].js'
+      filename: `${env.SCRIPT}.js`
     },
     target: 'node',
     externals: [
