@@ -49,7 +49,7 @@ const development = env => {
       new RunNodeWebpackPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.EnvironmentPlugin({
-        STATIC_PATH: 'public'
+        STATIC_PATH: path.resolve(process.cwd(), 'public')
       })
     ],
     devtool: 'source-map'
@@ -97,7 +97,7 @@ const production = env => {
         silent: true
       }),
       new webpack.EnvironmentPlugin({
-        STATIC_PATH: 'build/public'
+        STATIC_PATH: path.resolve(process.cwd(), 'build/public')
       })
     ],
     devtool: 'source-map'
