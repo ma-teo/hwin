@@ -1,4 +1,4 @@
-const path = require('path')
+const paths = require('./paths')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const Dotenv = require('dotenv-webpack')
@@ -8,10 +8,10 @@ const development = env => {
   return {
     mode: env.NODE_ENV,
     entry: {
-      server: path.resolve(process.cwd(), 'src/server.js'),
+      server: paths.serverSrc
     },
     output: {
-      path: path.resolve(process.cwd(), 'build'),
+      path: paths.serverOut,
       filename: '[name].js',
       hotUpdateChunkFilename: '[id].[fullhash:8].js',
       hotUpdateMainFilename: '[runtime].[fullhash:8].json',
@@ -49,7 +49,7 @@ const development = env => {
       new RunNodeWebpackPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.EnvironmentPlugin({
-        STATIC_PATH: path.resolve(process.cwd(), 'public')
+        STATIC_PATH: paths.publicDir
       })
     ],
     devtool: 'source-map'
@@ -60,11 +60,11 @@ const production = env => {
   return {
     mode: env.NODE_ENV,
     entry: {
-      [env.SCRIPT]: path.resolve(process.cwd(), `src/${env.SCRIPT}.js`),
+      server: paths.serverSrc,
     },
     output: {
-      path: path.resolve(process.cwd(), 'build'),
-      filename: `${env.SCRIPT}.js`
+      path: paths.serverOut,
+      filename: '[name].js'
     },
     target: 'node',
     externals: [
@@ -97,7 +97,7 @@ const production = env => {
         silent: true
       }),
       new webpack.EnvironmentPlugin({
-        STATIC_PATH: path.resolve(process.cwd(), 'build/public')
+        STATIC_PATH: paths.clientOut
       })
     ],
     devtool: 'source-map'

@@ -1,16 +1,18 @@
-const path = require('path')
+const paths = require('./paths')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { GenerateSW } = require('workbox-webpack-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
 
 const development = env => {
   return {
     mode: env.NODE_ENV,
-    entry: path.resolve(process.cwd(), 'src/client.js'),
+    entry: paths.clientSrc,
     output: {
-      path: path.resolve(process.cwd(), 'build/public'),
+      path: paths.clientOut,
       filename: 'js/[name].js',
       hotUpdateChunkFilename: 'js/[id].[fullhash:8].js',
       hotUpdateMainFilename: 'js/[runtime].[fullhash:8].json',
@@ -68,7 +70,7 @@ const development = env => {
         silent: true
       }),
       new AssetsPlugin({
-        path: path.resolve(process.cwd(), 'build'),
+        path: paths.serverOut,
         filename: 'assets.json',
         removeFullPathAutoPrefix: true,
         entrypoints: true
@@ -93,9 +95,9 @@ const development = env => {
 const production = env => {
   return {
     mode: env.NODE_ENV,
-    entry: path.resolve(process.cwd(), 'src/client.js'),
+    entry: paths.clientSrc,
     output: {
-      path: path.resolve(process.cwd(), 'build/public'),
+      path: paths.clientOut,
       filename: 'js/[name].[contenthash:8].js',
       publicPath: '/'
     },
@@ -160,13 +162,26 @@ const production = env => {
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:8].css'
       }),
+      paths.htmlIndexSrc && new HtmlWebpackPlugin({
+        template: paths.htmlIndexSrc,
+        filename: 'index.html'
+      }),
+      paths.html200Src && new HtmlWebpackPlugin({
+        template: paths.html200Src,
+        filename: '200.html'
+      }),
+      new GenerateSW({
+        skipWaiting: true,
+        navigateFallback: paths.html200Src ? '200.html' : paths.htmlIndexSrc ? 'index.html' : undefined,
+        navigateFallbackDenylist: [/\/[^/?]+\.[^/]+$/]
+      }),
       new AssetsPlugin({
-        path: path.resolve(process.cwd(), 'build'),
+        path: paths.serverOut,
         filename: 'assets.json',
         removeFullPathAutoPrefix: true,
         entrypoints: true
       })
-    ],
+    ].filter(Boolean),
     optimization: {
       runtimeChunk: 'single',
       splitChunks: {
