@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { GenerateSW } = require('workbox-webpack-plugin')
+const { GenerateSW, InjectManifest } = require('workbox-webpack-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
 
 const development = env => {
@@ -170,10 +170,13 @@ const production = env => {
         template: paths.html200Src,
         filename: '200.html'
       }),
-      new GenerateSW({
+      !paths.swSrc && new GenerateSW({
         skipWaiting: true,
         navigateFallback: paths.html200Src ? '200.html' : paths.htmlIndexSrc ? 'index.html' : undefined,
         navigateFallbackDenylist: [/\/[^/?]+\.[^/]+$/]
+      }),
+      paths.swSrc && new InjectManifest({
+        swSrc: paths.swSrc
       }),
       new AssetsPlugin({
         path: paths.serverOut,

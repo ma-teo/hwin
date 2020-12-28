@@ -9,6 +9,7 @@ module.exports = {
   serverSrc: resolve('src/server.js'),
   htmlIndexSrc: isExist('public/index.html'),
   html200Src: isExist('public/200.html'),
+  swSrc: isExist('src/service-worker.js'),
   publicDir: resolve('public'),
   serverOut: resolve('build'),
   clientOut: resolve('build/public'),
