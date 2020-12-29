@@ -69,13 +69,21 @@ const development = env => {
       new Dotenv({
         silent: true
       }),
-      new AssetsPlugin({
+      paths.htmlIndexSrc && new HtmlWebpackPlugin({
+        template: paths.htmlIndexSrc,
+        filename: 'index.html'
+      }),
+      paths.html200Src && new HtmlWebpackPlugin({
+        template: paths.html200Src,
+        filename: '200.html'
+      }),
+      paths.serverSrc && new AssetsPlugin({
         path: paths.serverOut,
         filename: 'assets.json',
         removeFullPathAutoPrefix: true,
         entrypoints: true
       })
-    ],
+    ].filter(Boolean),
     optimization: {
       runtimeChunk: 'single',
       splitChunks: {
@@ -170,15 +178,16 @@ const production = env => {
         template: paths.html200Src,
         filename: '200.html'
       }),
-      !paths.swSrc && new GenerateSW({
-        skipWaiting: true,
-        navigateFallback: paths.html200Src ? '200.html' : paths.htmlIndexSrc ? 'index.html' : undefined,
-        navigateFallbackDenylist: [/\/[^/?]+\.[^/]+$/]
-      }),
-      paths.swSrc && new InjectManifest({
-        swSrc: paths.swSrc
-      }),
-      new AssetsPlugin({
+      paths.swSrc
+        ? new InjectManifest({
+          swSrc: paths.swSrc
+        })
+        : new GenerateSW({
+          skipWaiting: true,
+          navigateFallback: paths.html200Src ? '200.html' : paths.htmlIndexSrc ? 'index.html' : undefined,
+          navigateFallbackDenylist: [/\/[^/?]+\.[^/]+$/]
+        }),
+      paths.serverSrc && new AssetsPlugin({
         path: paths.serverOut,
         filename: 'assets.json',
         removeFullPathAutoPrefix: true,

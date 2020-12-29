@@ -1,6 +1,17 @@
-# Hwin - React SSR CLI
+# Hwin - React SPA/SSR CLI
 
-Create [React](https://github.com/facebook/react) SSR app with no build configuration.
+Create React SPA/SSR app with no build configuration.
+
+Only required files:
+- `src/client.js`
+- `src/server.js`
+
+Optional HTML templates:
+- `public/index.html`
+- `public/200.html`
+
+Optional service worker template:
+- `src/service-worker.js`
 
 ## Available Scripts
 
