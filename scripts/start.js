@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-process.env.NODE_ENV = 'development'
-
 const webpack = require('webpack')
 const devServer = require('webpack-dev-server')
 
@@ -10,13 +8,13 @@ const devServerConfig = require('../config/devServer')
 const paths = require('../config/paths')
 
 if (paths.clientSrc) {
-  const clientCompiler = webpack(clientConfig(process.env))
+  const clientCompiler = webpack(clientConfig('development'))
 
   const clientServer = new devServer(clientCompiler, devServerConfig)
 
   clientCompiler.hooks.done.tap('done', stats => {
     if (!stats.hasErrors() && paths.serverSrc) {
-      const serverCompiler = webpack(serverConfig(process.env))
+      const serverCompiler = webpack(serverConfig('development'))
 
       serverCompiler.hooks.done.tap('done', stats => {
         console.log(stats.toString({ colors: true }))

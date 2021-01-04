@@ -1,4 +1,5 @@
 const paths = require('./paths')
+const babel = require('./babel')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const CopyPlugin = require('copy-webpack-plugin')
@@ -9,7 +10,7 @@ const AssetsPlugin = require('assets-webpack-plugin')
 
 const development = env => {
   return {
-    mode: env.NODE_ENV,
+    mode: env,
     entry: paths.clientSrc,
     output: {
       path: paths.clientOut,
@@ -18,29 +19,17 @@ const development = env => {
       hotUpdateMainFilename: 'js/[runtime].[fullhash:8].json',
       publicPath: 'http://localhost:5000/'
     },
+    optimization: {
+      runtimeChunk: 'single',
+      splitChunks: {
+        name: 'vendors',
+        chunks: 'all'
+      }
+    },
+    devtool: 'source-map',
     module: {
       rules: [
-        {
-          test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: require.resolve('babel-loader'),
-            options: {
-              plugins: [
-                require.resolve('@babel/plugin-transform-runtime')
-              ],
-              presets: [
-                require.resolve('@babel/preset-env'),
-                [
-                  require.resolve('@babel/preset-react'),
-                  {
-                    'runtime': 'automatic'
-                  }
-                ]
-              ]
-            }
-          }
-        },
+        babel,
         {
           test: /\.(css|s[ac]ss)$/,
           use: [
@@ -86,55 +75,30 @@ const development = env => {
         removeFullPathAutoPrefix: true,
         entrypoints: true
       })
-    ].filter(Boolean),
-    optimization: {
-      runtimeChunk: 'single',
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all'
-          }
-        }
-      }
-    },
-    devtool: 'source-map'
+    ].filter(Boolean)
   }
 }
 
 const production = env => {
   return {
-    mode: env.NODE_ENV,
+    mode: env,
     entry: paths.clientSrc,
     output: {
       path: paths.clientOut,
       filename: 'js/[name].[contenthash:8].js',
       publicPath: '/'
     },
+    optimization: {
+      runtimeChunk: 'single',
+      splitChunks: {
+        name: 'vendors',
+        chunks: 'all'
+      }
+    },
+    devtool: 'source-map',
     module: {
       rules: [
-        {
-          test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: {
-            loader: require.resolve('babel-loader'),
-            options: {
-              plugins: [
-                require.resolve('@babel/plugin-transform-runtime')
-              ],
-              presets: [
-                require.resolve('@babel/preset-env'),
-                [
-                  require.resolve('@babel/preset-react'),
-                  {
-                    'runtime': 'automatic'
-                  }
-                ]
-              ]
-            }
-          }
-        },
+        babel,
         {
           test: /\.(css|s[ac]ss)$/,
           use: [
@@ -199,21 +163,8 @@ const production = env => {
         removeFullPathAutoPrefix: true,
         entrypoints: true
       })
-    ].filter(Boolean),
-    optimization: {
-      runtimeChunk: 'single',
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all'
-          }
-        }
-      }
-    },
-    devtool: 'source-map'
+    ].filter(Boolean)
   }
 }
 
-module.exports = env => env.NODE_ENV === 'production' ? production(env) : development(env)
+module.exports = env => env === 'production' ? production(env) : development(env)
