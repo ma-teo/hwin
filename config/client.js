@@ -169,7 +169,7 @@ const production = env => {
       }),
       new CopyPlugin({
         patterns: [{
-          from: 'public',
+          from: paths.publicDir,
           noErrorOnMissing: true
         }]
       }),
