@@ -28,6 +28,9 @@ const development = env => {
           use: {
             loader: require.resolve('babel-loader'),
             options: {
+              plugins: [
+                require.resolve('@babel/plugin-transform-runtime')
+              ],
               presets: [
                 require.resolve('@babel/preset-env'),
                 [
@@ -78,6 +81,9 @@ const production = env => {
           use: {
             loader: require.resolve('babel-loader'),
             options: {
+              plugins: [
+                require.resolve('@babel/plugin-transform-runtime')
+              ],
               presets: [
                 require.resolve('@babel/preset-env'),
                 [

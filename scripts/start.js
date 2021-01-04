@@ -17,18 +17,18 @@ if (paths.clientSrc) {
   clientCompiler.hooks.done.tap('done', stats => {
     if (!stats.hasErrors() && paths.serverSrc) {
       const serverCompiler = webpack(serverConfig(process.env))
-  
+
       serverCompiler.hooks.done.tap('done', stats => {
         console.log(stats.toString({ colors: true }))
       })
-  
+
       serverCompiler.watch({}, () => {})
     }
   })
-  
+
   console.log('Building...')
-  
-  clientServer.listen(5000)  
+
+  clientServer.listen(5000)
 } else {
   console.log('Error! `src/client.js` file is not exist!')
 }
