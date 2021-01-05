@@ -134,7 +134,13 @@ const production = env => {
       new CopyPlugin({
         patterns: [{
           from: paths.publicDir,
-          noErrorOnMissing: true
+          noErrorOnMissing: true,
+          globOptions: {
+            ignore: [
+              '**/200.html',
+              '**/index.html'
+            ]
+          }
         }]
       }),
       new MiniCssExtractPlugin({
