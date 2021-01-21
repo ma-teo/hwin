@@ -156,12 +156,14 @@ const production = env => {
       }),
       paths.swSrc
         ? new InjectManifest({
-          swSrc: paths.swSrc
+          swSrc: paths.swSrc,
+          exclude: ['CNAME']
         })
         : new GenerateSW({
           skipWaiting: true,
           navigateFallback: paths.html200Src ? '200.html' : paths.htmlIndexSrc ? 'index.html' : undefined,
-          navigateFallbackDenylist: [/\/[^/?]+\.[^/]+$/]
+          navigateFallbackDenylist: [/\/[^/?]+\.[^/]+$/],
+          exclude: ['CNAME']
         }),
       paths.serverSrc && new AssetsPlugin({
         path: paths.serverOut,
