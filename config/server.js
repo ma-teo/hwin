@@ -16,6 +16,7 @@ module.exports = env => {
       filename: '[name].js',
       hotUpdateChunkFilename: '[id].[fullhash:8].js',
       hotUpdateMainFilename: '[runtime].[fullhash:8].json',
+      publicPath: env === 'development' ? 'http://localhost:5000/' : '/'
     },
     devtool: 'source-map',
     target: 'node',
@@ -24,7 +25,18 @@ module.exports = env => {
     ],
     module: {
       rules: [
-        babel
+        babel,
+        {
+          test: /\.(css|s[ac]ss)$/,
+          loader: require.resolve('ignore-loader')
+        },
+        {
+          exclude: /\.([jt]s|[jt]sx|mjs|css|s[ac]ss|html|json)$/,
+          loader: require.resolve('file-loader'),
+          options: {
+            name: 'media/[name].[contenthash:8].[ext]'
+          }
+        }
       ]
     },
     plugins: [

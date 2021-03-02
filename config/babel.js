@@ -1,5 +1,5 @@
 module.exports = {
-  test: /\.(js|jsx)$/,
+  test: /\.([jt]s|[jt]sx|mjs)$/,
   exclude: /node_modules/,
   use: {
     loader: require.resolve('babel-loader'),

@@ -49,7 +49,7 @@ const development = env => {
           ]
         },
         {
-          test: /\.(png|jpe?g|gif|svg|ico)$/,
+          exclude: /\.([jt]s|[jt]sx|mjs|css|s[ac]ss|html|json)$/,
           loader: require.resolve('file-loader'),
           options: {
             name: 'media/[name].[contenthash:8].[ext]'
@@ -118,7 +118,7 @@ const production = env => {
           ]
         },
         {
-          test: /\.(png|jpe?g|gif|svg|ico)$/,
+          exclude: /\.([jt]s|[jt]sx|mjs|css|s[ac]ss|html|json)$/,
           loader: require.resolve('file-loader'),
           options: {
             name: 'media/[name].[contenthash:8].[ext]'
