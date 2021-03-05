@@ -34,7 +34,12 @@ const development = env => {
           test: /\.(css|s[ac]ss)$/,
           use: [
             require.resolve('style-loader'),
-            require.resolve('css-loader'),
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                url: url => url.startsWith('/') ? false : true
+              }
+            },
             {
               loader: require.resolve('postcss-loader'),
               options: {
@@ -103,7 +108,12 @@ const production = env => {
           test: /\.(css|s[ac]ss)$/,
           use: [
             MiniCssExtractPlugin.loader,
-            require.resolve('css-loader'),
+            {
+              loader: require.resolve('css-loader'),
+              options: {
+                url: url => url.startsWith('/') ? false : true
+              }
+            },
             {
               loader: require.resolve('postcss-loader'),
               options: {
