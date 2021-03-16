@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const chalk = require('chalk')
 const webpack = require('webpack')
 const devServer = require('webpack-dev-server')
 
@@ -13,20 +14,34 @@ if (paths.clientSrc) {
   const clientServer = new devServer(clientCompiler, devServerConfig)
 
   clientCompiler.hooks.done.tap('done', stats => {
-    if (!stats.hasErrors() && paths.serverSrc) {
-      const serverCompiler = webpack(serverConfig('development'))
+    if (!stats.hasErrors()) {
+      console.clear()
+      console.log(chalk.green('Client Build Completed!'))
 
-      serverCompiler.hooks.done.tap('done', stats => {
-        console.log(stats.toString({ colors: true }))
-      })
+      if (paths.serverSrc) {
+        const serverCompiler = webpack(serverConfig('development'))
 
-      serverCompiler.watch({}, () => {})
+        serverCompiler.hooks.done.tap('done', stats => {
+          if (!stats.hasErrors()) {
+            console.clear()
+            console.log(chalk.green('Server Build Completed!'))
+          } else {
+            console.log(chalk.red(stats.toJson().errors.map(({message}) => message)))
+          }
+        })
+
+        serverCompiler.watch({}, () => {})
+
+        console.log(chalk.blue('Server Building...'))
+      }
+    } else {
+      console.log(chalk.red(stats.toJson().errors.map(({message}) => message)))
     }
   })
 
-  console.log('Building...')
+  console.log(chalk.blue('Client Building...'))
 
-  clientServer.listen(5000)
+  clientServer.listen(devServerConfig.port)
 } else {
-  console.log('Error! `src/client.js` file is not exist!')
+  console.log(chalk.red('Error! `src/client.js` file is not exist!'))
 }
