@@ -48,13 +48,10 @@ module.exports = env => {
     },
     svg: {
       test: /\.svg$/,
-      use: [
-        require.resolve('@svgr/webpack'),
-        require.resolve('url-loader')
-      ],
+      loader: require.resolve('@svgr/webpack'),
     },
     file: {
-      exclude: /\.([jt]s|[jt]sx|mjs|css|s[ac]ss|html|json|svg)$/,
+      exclude: /\.([jt]s|[jt]sx|mjs|css|s[ac]ss|html|json)$/,
       loader: require.resolve('file-loader'),
       options: {
         name: 'media/[name].[contenthash:8].[ext]'

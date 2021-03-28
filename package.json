@@ -1,6 +1,6 @@
 {
   "name": "hwin",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -31,7 +31,6 @@
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
-    "url-loader": "^4.1.1",
     "webpack": "^5.28.0",
     "webpack-dev-server": "^3.11.2",
     "webpack-node-externals": "^2.5.2",
