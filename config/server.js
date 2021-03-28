@@ -1,5 +1,5 @@
 const paths = require('./paths')
-const babel = require('./babel')
+const modules = require('./modules')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const Dotenv = require('dotenv-webpack')
@@ -25,18 +25,13 @@ module.exports = env => {
     ],
     module: {
       rules: [
-        babel,
+        modules(env).js,
         {
           test: /\.(css|s[ac]ss)$/,
           loader: require.resolve('ignore-loader')
         },
-        {
-          exclude: /\.([jt]s|[jt]sx|mjs|css|s[ac]ss|html|json)$/,
-          loader: require.resolve('file-loader'),
-          options: {
-            name: 'media/[name].[contenthash:8].[ext]'
-          }
-        }
+        modules(env).svg,
+        modules(env).file
       ]
     },
     plugins: [

@@ -1,5 +1,5 @@
 const paths = require('./paths')
-const babel = require('./babel')
+const modules = require('./modules')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const CopyPlugin = require('copy-webpack-plugin')
@@ -29,37 +29,10 @@ const development = env => {
     devtool: 'source-map',
     module: {
       rules: [
-        babel,
-        {
-          test: /\.(css|s[ac]ss)$/,
-          use: [
-            require.resolve('style-loader'),
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                url: url => url.startsWith('/') ? false : true
-              }
-            },
-            {
-              loader: require.resolve('postcss-loader'),
-              options: {
-                postcssOptions: {
-                  plugins: [
-                    require.resolve('autoprefixer')
-                  ]
-                }
-              }
-            },
-            require.resolve('sass-loader')
-          ]
-        },
-        {
-          exclude: /\.([jt]s|[jt]sx|mjs|css|s[ac]ss|html|json)$/,
-          loader: require.resolve('file-loader'),
-          options: {
-            name: 'media/[name].[contenthash:8].[ext]'
-          }
-        }
+        modules(env).js,
+        modules(env).css,
+        modules(env).svg,
+        modules(env).file
       ]
     },
     plugins: [
@@ -103,37 +76,10 @@ const production = env => {
     devtool: 'source-map',
     module: {
       rules: [
-        babel,
-        {
-          test: /\.(css|s[ac]ss)$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                url: url => url.startsWith('/') ? false : true
-              }
-            },
-            {
-              loader: require.resolve('postcss-loader'),
-              options: {
-                postcssOptions: {
-                  plugins: [
-                    require.resolve('autoprefixer')
-                  ]
-                }
-              }
-            },
-            require.resolve('sass-loader')
-          ]
-        },
-        {
-          exclude: /\.([jt]s|[jt]sx|mjs|css|s[ac]ss|html|json)$/,
-          loader: require.resolve('file-loader'),
-          options: {
-            name: 'media/[name].[contenthash:8].[ext]'
-          }
-        }
+        modules(env).js,
+        modules(env).css,
+        modules(env).svg,
+        modules(env).file
       ]
     },
     plugins: [
